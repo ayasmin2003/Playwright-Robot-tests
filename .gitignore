@@ -1,0 +1,17 @@
+# Python virtual environment
+Lib/
+Scripts/
+Include/
+pyvenv.cfg
+__pycache__/
+*.pyc
+
+# Test results (generated output)
+results/
+
+# Robot Framework logs
+*.xml
+*.html
+log.html
+report.html
+output.xml

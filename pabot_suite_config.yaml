@@ -1,0 +1,18 @@
+--
+  - suite: tests/login.robot
+    variables:
+      BROWSER: chromium
+    name: Login-Chrome
+    outputdir: results/chrome
+
+  - suite: tests/login.robot
+    variables:
+      BROWSER: firefox
+    name: Login-Firefox
+    outputdir: results/firefox
+
+  - suite: tests/login.robot
+    variables:
+      BROWSER: webkit
+    name: Login-Edge
+    outputdir: results/edge

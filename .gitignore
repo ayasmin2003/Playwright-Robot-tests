@@ -1,17 +1,42 @@
-# Python virtual environment
+# ── Python virtual environment ───────────────────────────────────────────────
 Lib/
 Scripts/
 Include/
 pyvenv.cfg
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Test results (generated output)
+# ── Test results & artefacts (generated output) ───────────────────────────────
 results/
-
-# Robot Framework logs
-*.xml
-*.html
+output.xml
 log.html
 report.html
-output.xml
+*.xml
+*.html
+screenshots/
+traces/
+pabot_results/
+
+# ── Robot Framework ───────────────────────────────────────────────────────────
+.pabotsuitenames
+
+# ── IDE / OS ──────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Secrets / environment ─────────────────────────────────────────────────────
+.env
+.env.*
+secrets.yaml

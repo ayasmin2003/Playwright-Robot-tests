@@ -1,0 +1,112 @@
+name: Robot Framework CI
+
+on:
+  push:
+    branches: [ main, master, "tc/**", "feature/**" ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:          # allow manual runs from the Actions tab
+
+jobs:
+  test:
+    name: "${{ matrix.browser }} tests"
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false          # run all browsers even if one fails
+      matrix:
+        browser: [ chromium, firefox, webkit ]
+
+    steps:
+      # ── Checkout ────────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Python ──────────────────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      # ── Dependencies ────────────────────────────────────────────────────────
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Initialise rfbrowser (Playwright browsers)
+        run: python -m rfbrowser init
+
+      # ── UI Tests ────────────────────────────────────────────────────────────
+      - name: Run UI login tests (${{ matrix.browser }})
+        run: |
+          python -m robot \
+            --variable BROWSER:${{ matrix.browser }} \
+            --variable HEADLESS:True \
+            --outputdir results/${{ matrix.browser }} \
+            --loglevel DEBUG \
+            --report report.html \
+            --log log.html \
+            tests/login.robot
+        continue-on-error: true   # collect results even on failure
+
+      # ── API Tests (run once, on chromium job only) ───────────────────────────
+      - name: Run API tests
+        if: matrix.browser == 'chromium'
+        run: |
+          python -m robot \
+            --outputdir results/api \
+            --loglevel DEBUG \
+            tests/api_login.robot
+        continue-on-error: true
+
+      # ── Upload artefacts ─────────────────────────────────────────────────────
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-results-${{ matrix.browser }}
+          path: |
+            results/
+            *.html
+          retention-days: 14
+
+  # ── Merge reports (optional, runs after all browser jobs) ───────────────────
+  merge-reports:
+    name: Merge Robot reports
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install robotframework
+        run: pip install robotframework
+
+      - name: Download all artefacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all-results/
+
+      - name: Merge output.xml files
+        run: |
+          python -m robot.rebot \
+            --outputdir merged-results \
+            --output output.xml \
+            --log log.html \
+            --report report.html \
+            $(find all-results -name "output.xml" | tr '\n' ' ') || true
+
+      - name: Upload merged report
+        uses: actions/upload-artifact@v4
+        with:
+          name: merged-robot-report
+          path: merged-results/
+          retention-days: 30

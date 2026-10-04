@@ -1,0 +1,16 @@
+# ── Core test framework ───────────────────────────────────────────────────────
+robotframework>=7.0
+
+# ── Browser (Playwright) library ─────────────────────────────────────────────
+# After install run: python -m rfbrowser init
+robotframework-browser>=18.0.0
+
+# ── HTTP / API testing ────────────────────────────────────────────────────────
+robotframework-requests>=0.9.7
+requests>=2.31.0
+
+# ── Parallel execution ────────────────────────────────────────────────────────
+robotframework-pabot>=2.18.0
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+robotframework-pythonlibcore>=4.4.1

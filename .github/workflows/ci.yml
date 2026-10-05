@@ -34,7 +34,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Initialise rfbrowser (Playwright browsers)
-        run: python -m rfbrowser init
+        run: rfbrowser init
 
       # ── UI Tests ────────────────────────────────────────────────────────────
       - name: Run UI login tests (${{ matrix.browser }})
@@ -44,8 +44,6 @@ jobs:
             --variable HEADLESS:True \
             --outputdir results/${{ matrix.browser }} \
             --loglevel DEBUG \
-            --report report.html \
-            --log log.html \
             tests/login.robot
         continue-on-error: true   # collect results even on failure
 
@@ -65,9 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: robot-results-${{ matrix.browser }}
-          path: |
-            results/
-            *.html
+          path: results/
           retention-days: 14
 
   # ── Merge reports (optional, runs after all browser jobs) ───────────────────

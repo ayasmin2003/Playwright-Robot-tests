@@ -9,8 +9,5 @@ robotframework-browser>=18.0.0
 robotframework-requests>=0.9.7
 requests>=2.31.0
 
-# ── Parallel execution ────────────────────────────────────────────────────────
-robotframework-pabot>=2.18.0
-
 # ── Utilities ─────────────────────────────────────────────────────────────────
 robotframework-pythonlibcore>=4.4.1

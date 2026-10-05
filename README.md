@@ -45,18 +45,15 @@ Playwright-Robot-tests/
 ├── resources/
 │   ├── variables.resource       # Global variables (URL, browser, credentials)
 │   ├── common.resource          # Suite/test lifecycle keywords + failure evidence capture
-│   ├── pages/
-│   │   ├── login_page.resource  # Page Object: login page actions & assertions
-│   │   └── dashboard_page.resource  # Page Object: dashboard assertions & logout
-│   └── test_data/
-│       └── login_data.resource  # Test data constants and scenario lists
+│   └── pages/
+│       ├── login_page.resource  # Page Object: login page actions & assertions
+│       └── dashboard_page.resource  # Page Object: dashboard assertions & logout
 │
 ├── results/                     # Generated output (gitignored)
 ├── .github/
 │   └── workflows/
 │       └── ci.yml               # GitHub Actions CI pipeline
 ├── requirements.txt             # Python dependencies
-├── pabot_suite_config.yaml      # Parallel execution config
 ├── run_parallel.py              # Run all browsers in parallel (local)
 └── run_all_browsers.bat         # Run all browsers sequentially (Windows)
 ```

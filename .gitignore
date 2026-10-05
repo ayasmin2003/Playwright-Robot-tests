@@ -41,5 +41,9 @@ Thumbs.db
 .env.*
 secrets.yaml
 
+# ── BrowserStack SDK / pabot generated logs ──────────────────────────────────
+log/
+pabot_manager.log
+
 # Test Companion onboarding (local, per-machine)
 .test-companion/

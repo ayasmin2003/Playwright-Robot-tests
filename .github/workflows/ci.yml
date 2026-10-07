@@ -61,12 +61,20 @@ jobs:
         continue-on-error: true
 
       # ── Upload artefacts ─────────────────────────────────────────────────────
-      - name: Upload test results
+      - name: Upload UI test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: robot-results-${{ matrix.browser }}
-          path: results/
+          path: results/${{ matrix.browser }}/
+          retention-days: 14
+
+      - name: Upload API test results
+        if: always() && matrix.browser == 'chromium'
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-results-api
+          path: results/api/
           retention-days: 14
 
   # ── Merge reports (optional, runs after all browser jobs) ───────────────────
@@ -92,7 +100,9 @@ jobs:
       - name: Download all artefacts
         uses: actions/download-artifact@v4
         with:
+          pattern: robot-results-*
           path: all-results/
+          merge-multiple: false
 
       - name: Merge output.xml files
         run: |

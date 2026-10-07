@@ -203,7 +203,7 @@ To trigger a manual run: **Actions → Robot Framework CI → Run workflow**.
 
 ## Contributing
 
-1. Branch from `main` using the convention `feature/<short-description>` or `fix/<short-description>`.
+1. Branch from `master` using the convention `feature/<short-description>` or `fix/<short-description>`.
 2. Add or update tests in `tests/` and keywords in `resources/pages/`.
 3. Ensure all tests pass locally before opening a PR.
 4. The CI pipeline must be green before merging.
